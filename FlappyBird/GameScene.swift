@@ -14,18 +14,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scrollNode:SKNode!
     var wallNode:SKNode!
     var bird:SKSpriteNode!
+    var blueBirdNode:SKNode! //課題
     
     //衝突判定カテゴリー
     let birdCategory: UInt32 = 1 << 0       // 0...00001
     let groundCategory: UInt32 = 1 << 1     // 0...00010
     let wallCategory: UInt32 = 1 << 2       // 0...00100
-    let scorecategory: UInt32 = 1 << 3      // 0...01000
+    let scoreCategory: UInt32 = 1 << 3      // 0...01000
+    let blueBirdCategory: UInt32 = 1 << 4   // 課題：0...10000
     
     //スコア用
     var score = 0
     var scoreLabelNode:SKLabelNode!
     var bestScoreLabelNode:SKLabelNode!
     let userDefaults:UserDefaults = UserDefaults.standard
+    
+    //課題：アイテムスコア用
+    var blueBirdScore = 0
+    var blueBirdScoreNode:SKLabelNode!    // ←追加
+    let blueBirdUserDefaults:UserDefaults = UserDefaults.standard
     
        //SKView上にシーンが表示された時に呼ばれるメソッド
     override func didMove(to view: SKView) {
@@ -45,11 +52,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wallNode = SKNode()
         scrollNode.addChild(wallNode)
         
+        //課題：ノード
+        blueBirdNode = SKNode()
+        scrollNode.addChild(blueBirdNode)
+        
         //各種スプライトを生成する処理をメソッドに分割
         setupGround()
         setupCloud()
         setupWall()
         setupBird()
+        setupBlueBird() //課題
         
         setupScoreLabel()
         
@@ -211,7 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 scoreNode.position = CGPoint(x: upper.size.width + birdSize.width / 2, y: self.frame.height / 2)
                 scoreNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: upper.size.width, height: self.frame.size.height))
                 scoreNode.physicsBody?.isDynamic = false
-                scoreNode.physicsBody?.categoryBitMask = self.scorecategory
+                scoreNode.physicsBody?.categoryBitMask = self.scoreCategory
                 scoreNode.physicsBody?.contactTestBitMask = self.birdCategory
                 
                 wall.addChild(scoreNode)
@@ -300,7 +312,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
         
-        if(contact.bodyA.categoryBitMask & scorecategory) == scorecategory || (contact.bodyB.categoryBitMask & scorecategory) == scorecategory {
+        //課題：追加アイテムに衝突した処理
+        if (contact.bodyA.categoryBitMask & blueBirdCategory) == blueBirdCategory || (contact.bodyB.categoryBitMask & blueBirdCategory) == blueBirdCategory {
+        // bluebirdと衝突した
+        print("衝突判定")
+        
+        }
+        
+        if(contact.bodyA.categoryBitMask & scoreCategory) == scoreCategory || (contact.bodyB.categoryBitMask & scoreCategory) == scoreCategory {
             //スコア用の物体と衝突した
             print("ScoreUp")
             score += 1
@@ -314,6 +333,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 userDefaults.set(bestScore, forKey: "BEST")
                 userDefaults.synchronize()
             }
+            
         } else {
             //壁か地面と衝突した
             print("GameOver")
@@ -328,8 +348,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.bird.speed = 0
             })
         }
-        
-        
     }
        
     func setupScoreLabel() {
@@ -350,6 +368,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bestScore = userDefaults.integer(forKey: "BEST")
         bestScoreLabelNode.text = "Best Score:\(bestScore)"
         self.addChild(bestScoreLabelNode)
+    }
+    
+    //課題：アイテム出現
+   func setupBlueBird() {
+        let blueBird = SKSpriteNode(imageNamed: "bluebird")
+        blueBird.position = CGPoint(
+        x:self.view!.frame.width * 2,
+        y:self.view!.frame.height / 2
+    )
+    //衝突判定
+    //自信のカテゴリを設定
+    blueBird.physicsBody?.categoryBitMask = self.blueBirdCategory
+    //衝突の相手を設定
+    blueBird.physicsBody?.collisionBitMask = self.birdCategory
+    //物体と衝突した時に、通知として送る値
+    blueBird.physicsBody?.contactTestBitMask = self.birdCategory
+    
+    self.addChild(blueBird)
+    let moveAction = SKAction.moveTo(x: self.view!.frame.width * -2, duration: 10)
+    let resetAction = SKAction.moveTo(x: self.view!.frame.width * 2, duration: 0)
+   //let removeblueBird = SKAction.removeFromParent()
+    
+    let repeatScrollblueBird = SKAction.repeatForever(SKAction.sequence([moveAction, resetAction]))
+    
+    blueBird.run(repeatScrollblueBird)
+    
     }
     /*
     // MARK: - Navigation
