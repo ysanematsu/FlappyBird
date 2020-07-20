@@ -14,6 +14,7 @@
 		A440F8C624B559C700AAA609 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A440F8C524B559C700AAA609 /* Assets.xcassets */; };
 		A440F8C924B559C700AAA609 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A440F8C724B559C700AAA609 /* LaunchScreen.storyboard */; };
 		A440F8D124B584BA00AAA609 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A440F8D024B584BA00AAA609 /* GameScene.swift */; };
+		A46A723524C562F200FDCA81 /* music2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A46A723424C562F200FDCA81 /* music2.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		A440F8C824B559C700AAA609 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A440F8CA24B559C700AAA609 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A440F8D024B584BA00AAA609 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		A46A723424C562F200FDCA81 /* music2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music2.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 		A440F8BB24B559C600AAA609 /* FlappyBird */ = {
 			isa = PBXGroup;
 			children = (
+				A46A723324C561ED00FDCA81 /* sound */,
 				A440F8BC24B559C600AAA609 /* AppDelegate.swift */,
 				A440F8BE24B559C600AAA609 /* SceneDelegate.swift */,
 				A440F8C024B559C600AAA609 /* ViewController.swift */,
@@ -68,6 +71,14 @@
 				A440F8CA24B559C700AAA609 /* Info.plist */,
 			);
 			path = FlappyBird;
+			sourceTree = "<group>";
+		};
+		A46A723324C561ED00FDCA81 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				A46A723424C562F200FDCA81 /* music2.mp3 */,
+			);
+			name = sound;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -131,6 +142,7 @@
 				A440F8C924B559C700AAA609 /* LaunchScreen.storyboard in Resources */,
 				A440F8C624B559C700AAA609 /* Assets.xcassets in Resources */,
 				A440F8C424B559C600AAA609 /* Main.storyboard in Resources */,
+				A46A723524C562F200FDCA81 /* music2.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
